@@ -6,7 +6,7 @@ class Card:
         self.cardValue = value
         self.cardSuite = suite
 
-    def print(self):
+    def print(self) -> None:
         suiteIcons = {
             "heart": "\u2665",
             "diamond": "\u2666",

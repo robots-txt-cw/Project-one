@@ -1,16 +1,17 @@
 import random
 from card import Card
+from typing import *
 
 
 class Deck:
 
     def __init__(self):
-        self.deckList: list[Card] = Deck._create()
-        self.cardsInUse: list[Card]
+        self.deckList: List[Card] = Deck._create()
+        self.cardsInUse: List[Card]
 
     @staticmethod
-    def _create():
-        createdDeck: list[Card] = []
+    def _create() -> List[Card]:
+        createdDeck: List[Card] = []
 
         faces = ["k", "q", "j", "a"]
         suites = ["heart", "diamond", "spade", "club"]
@@ -24,14 +25,15 @@ class Deck:
         random.shuffle(createdDeck)
         return createdDeck
 
-    def playCard(self):
+    def playCard(self) -> Card:
+        '''Returns a popped card.'''
         random.shuffle(self.deckList)
 
         poppedCard = self.deckList.pop()
         self.cardsInUse = poppedCard
         return poppedCard
 
-    def resetDeck(self):
+    def resetDeck(self) -> None:
         for i in self.cardsInUse:
             self.deckList.append(i)
 

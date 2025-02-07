@@ -2,15 +2,14 @@ from player import Player
 from card import Card
 from typing import *
 
+
 class User(Player):
 
     def __init__(self):
         super().__init__()
         self.splitHand: Optional[List[Card]] = None
 
-        
-
-    def printHand(self):
+    def printHand(self) -> None:
         for i in self.hand:
             i.print()
         print(f"Currently {self.handValue}")
@@ -28,15 +27,16 @@ class User(Player):
         if turns == 0:
             options.append('d')
         # Split
-        def checksplit():
+
+        def checksplit() -> bool:
             available = True
             if turns > 0 and self.hand:
                 available = False
             if hand[0].cardValue != hand[1].cardValue:
                 available = False
-            
+
             return available
-            
+
         if checksplit():
             options.append('s')
         return options

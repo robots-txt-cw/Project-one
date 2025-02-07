@@ -6,7 +6,7 @@ class Player:
         self.hand: List[Card]
         self.handValue = 0
     
-    def _updateHandValue(self):
+    def _updateHandValue(self) -> None:
         '''Mainly the logic for face cards. Updates Player.handValue'''
         self.handValue = 0
         for card in self.hand:

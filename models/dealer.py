@@ -7,7 +7,7 @@ class Dealer(Player):
     def __init__(self):
         super().__init__()
 
-    def printHand(self):
+    def printHand(self) -> None:
         print(" DEALER")
         self.hand[1].print()
         print(CARD_BORDER)
@@ -15,7 +15,7 @@ class Dealer(Player):
             print(CARD_DEALER_FILLER)
         print(CARD_BORDER)
 
-    def revealHand(self):
+    def revealHand(self) -> None:
         for i in self.hand:
             i.print()
         print(f"Currently {self.handValue}")
