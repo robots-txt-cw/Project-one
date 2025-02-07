@@ -15,11 +15,13 @@ class Deck:
         faces = ["k", "q", "j", "a"]
         suites = ["heart", "diamond", "spade", "club"]
 
-        for suite in suites:
-            for i in range(2, 11):
-                createdDeck.append(Card(i, suite))
-            for face in faces:
-                createdDeck.append(Card(face, suite))
+        # Add 4 decks
+        for _ in range(4):
+            for suite in suites:
+                for i in range(2, 11):
+                    createdDeck.append(Card(i, suite))
+                for face in faces:
+                    createdDeck.append(Card(face, suite))
 
         random.shuffle(createdDeck)
         return createdDeck
