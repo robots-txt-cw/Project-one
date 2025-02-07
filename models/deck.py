@@ -25,7 +25,7 @@ class Deck:
         return createdDeck
 
     def playCard(self) -> Card:
-        '''Returns a popped'''
+        """Returns a popped"""
         random.shuffle(self.deckList)
 
         poppedCard = self.deckList.pop()
