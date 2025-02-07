@@ -1,9 +1,8 @@
 from card import Card
-from typing import *
 
 class Player:
     def __init__(self):
-        self.hand: List[Card]
+        self.hand: list[Card]
         self.handValue = 0
     
     def _updateHandValue(self) -> None:
@@ -17,14 +16,14 @@ class Player:
             elif card.cardValue == 'a':
                 self.handValue += 11 if self.handValue + 11 <= 21 else 1
 
-    def populateHand(self, drawnCard: List[Card] | Card) -> None:
+    def populateHand(self, drawnCard: list[Card] | Card) -> None:
         '''Populates the player's hand with a card or set of cards. Updates both Player.hand and Player.handValue
         
         Args:
             drawnCard List[Card]: an array of cards given out during the start of the round.
             drawnCard Card: card drawn after hitting
         '''
-        if type(drawnCard) is List:
+        if type(drawnCard) is list:
             self.hand = drawnCard
         else:
             self.hand.append(drawnCard)

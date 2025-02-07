@@ -1,20 +1,21 @@
 from player import Player
 from card import Card
-from typing import *
+
+
 
 
 class User(Player):
 
     def __init__(self):
         super().__init__()
-        self.splitHand: Optional[List[Card]] = None
+        self.splitHand: list[Card] | None = None
 
     def printHand(self) -> None:
         for i in self.hand:
             i.print()
         print(f"Currently {self.handValue}")
 
-    def _getPlayOptions(self, hand: List[Card], turns: int) -> List[str]:
+    def _getPlayOptions(self, hand: list[Card], turns: int) -> list[str]:
         '''Private method.
         Returns the options the player has available to them from a given amount of previous turns.
         Args:
