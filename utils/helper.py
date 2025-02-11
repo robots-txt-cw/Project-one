@@ -1,5 +1,6 @@
 import sys
 import os
+from ..models import User, Dealer
 
 
 def clearShell() -> None:
@@ -8,8 +9,9 @@ def clearShell() -> None:
 
 
 def canContinue() -> bool:
+    """Little confusing. Reurns False if user wants to quit. Returns True if user is continuing."""
     userInput = str.lower(input("Press any key to continue or (Q)uit"))
-    return False if userInput == "q" else True
+    return False if (userInput == "q" or userInput == "quit") else True
 
 
 def printStart() -> None:
@@ -27,3 +29,8 @@ def printStart() -> None:
    :     : :: ::    :   : :   :      :    :    ::    :    :   : :  : :: : :      : :::     :   : :   :: :: :   :   :::  
                                                                                                                         """
     )
+
+
+def printHands(dealer: Dealer, user: User) -> None:
+    dealer.printHand()
+    user.printHand()

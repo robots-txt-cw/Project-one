@@ -65,6 +65,10 @@ class Player:
             return True
         return False
 
+    def reset(self) -> None:
+        self.hand = []
+        self.handValue = 0
+
 
 class Dealer(Player):
 
@@ -83,10 +87,6 @@ class Dealer(Player):
         for i in self.hand:
             i.print()
         print(f"Currently {self.handValue}")
-
-    def reset(self) -> None:
-        self.hand = []
-        self.handValue = 0
 
 
 class Deck:
@@ -130,6 +130,8 @@ class Deck:
 
 class User(Player):
 
+    optionsDict = {"s": "(S)tand", "h": "(H)it", "d": "(D)ouble Down", "sp": "(Sp)lit"}
+
     def __init__(self):
         super().__init__()
         self.splitHand: list[Card] | None = None
@@ -141,7 +143,7 @@ class User(Player):
             i.print()
         print(f"Currently {self.handValue}")
 
-    def _getPlayOptions(self, hand: list[Card]) -> list[str]:
+    def _getPlayOptions(self) -> list[str]:
         """Private method.
         Returns the options the player has available to them from a given amount of previous turns.
         Args:
@@ -158,16 +160,26 @@ class User(Player):
         def checksplit() -> bool:
             if self.turns > 0 and self.hand:
                 return False
-            if hand[0].cardValue != hand[1].cardValue:
+            if self.hand[0].cardValue != self.hand[1].cardValue:
                 return False
             return True
 
         if checksplit():
-            options.append("s")
+            options.append("sp")
         return options
 
     def reset(self) -> None:
-        self.turns = 0
+        super().reset()
         self.splitHand = None
-        self.hand = []
-        self.handValue = 0
+        self.turns = 0
+
+    def getUserChoice(self) -> str:
+        """Returns the option user wants to do for their turn"""
+        options = self._getPlayOptions()
+        desiredChoice = str.lower(input(f"{", ".join(options)}: "))
+
+        while desiredChoice not in User.optionsDict.keys():
+            print("Incorect input. (ex. Stand = 's' or 'S')")
+            desiredChoice = str.lower(input(f"{", ".join(options)}: "))
+
+        return desiredChoice

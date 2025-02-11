@@ -18,6 +18,8 @@ def main():
             dealer.populateHand(deck.popCard())
             user.populateHand(deck.popCard())
 
+        helper.printHands()
+
 
 if __name__ == "__main__":
     main()
