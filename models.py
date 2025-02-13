@@ -89,7 +89,8 @@ class Player:
             drawnCard Card: card drawn after hitting
         """
         if type(drawnCard) is list:
-            self.hand = drawnCard
+            for card in drawnCard:
+                self.hand.append(card)
         else:
             self.hand.append(drawnCard)
 
@@ -132,7 +133,8 @@ class Dealer(Player):
 
 class User(Player):
 
-    optionsDict = {"s": "(S)tand", "h": "(H)it", "d": "(D)ouble Down"}
+    shortHandOptions = ["s", "h", "d"]
+    longHandOptions = ["(S)tand", "(H)it", "(D)ouble Down"]
 
     def __init__(self):
         super().__init__()
@@ -156,7 +158,8 @@ class User(Player):
         """
         options = ["s", "h"]
         # Double Down
-        if self.turns == 0:
+        # Only valid if start of the round. the user should only have two cards
+        if len(self.hand) == 2:
             options.append("d")
 
         return options
@@ -170,13 +173,13 @@ class User(Player):
         options: list[str] = []
 
         for i in self._getPlayOptions():
-            if User.optionsDict[i]:
-                options.append(User.optionsDict[i])
+            if i in User.shortHandOptions:
+                options.append(User.longHandOptions[User.shortHandOptions.index(i)])
 
-        desiredChoice = str.lower(input(f"{', '.join(options)}: "))
+        desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
 
-        while desiredChoice not in User.optionsDict.keys():
+        while desiredChoice not in User.shortHandOptions:
             print("Incorect input. (ex. Stand = 's' or 'S'): ")
-            desiredChoice = str.lower(input(f"{', '.join(options)}: "))
+            desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
 
         return desiredChoice
