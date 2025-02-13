@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from utils import helper
+import helper
 import models
 
 
@@ -13,12 +13,46 @@ def main():
     while helper.canContinue():
 
         helper.clearShell()
+        dealer.reset()
+        user.reset()
+        deck.resetDeck()
 
         for _ in range(2):
             dealer.populateHand(deck.popCard())
             user.populateHand(deck.popCard())
 
-        helper.printHands()
+        isUserTurn = True
+        while isUserTurn:
+            helper.clearShell()
+            helper.printHands(dealer, user)
+            userChoice = user.getUserChoice()
+            match userChoice:
+                case "s":
+                    isUserTurn = False
+                case "h":
+                    user.populateHand(deck.popCard())
+                case "d":
+                    user.populateHand(deck.popCard())
+                    isUserTurn = False
+            if user.isBust():
+                isUserTurn = False
+
+        while dealer.handValue < 17:
+            dealer.populateHand(deck.popCard())
+            if dealer.isBust():
+                break
+
+        userWon = helper.isUserWon(dealer, user)
+        helper.clearShell()
+        helper.revealHands(dealer, user)
+
+        match userWon:
+            case True:
+                print("You Won")
+            case False:
+                print("You Lost")
+            case None:
+                print("You Pushed")
 
 
 if __name__ == "__main__":

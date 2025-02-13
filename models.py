@@ -1,4 +1,4 @@
-from utils.constants import CARD_BORDER, CARD_HEIGHT, CARD_FILLER, CARD_DEALER_FILLER
+from constants import CARD_BORDER, CARD_HEIGHT, CARD_FILLER, CARD_DEALER_FILLER
 import random
 
 
@@ -19,16 +19,55 @@ class Card:
 
         print(CARD_BORDER)
         print(
-            f"|  {suiteIcons[self.cardSuite]}  {self.cardValue if type(self.cardValue) == int else faceIcons[self.cardValue]}"
+            f"| {suiteIcons[self.cardSuite]}  {self.cardValue if type(self.cardValue) == int else faceIcons[self.cardValue]}"
         )
         for _ in range(CARD_HEIGHT):
             print(CARD_FILLER)
         print(CARD_BORDER)
 
 
+class Deck:
+
+    def __init__(self):
+        self.deckList: list[Card] = Deck._create()
+        self.cardsInUse: list[Card] = []
+
+    @staticmethod
+    def _create() -> list[Card]:
+        createdDeck: list[Card] = []
+
+        faces = ["k", "q", "j", "a"]
+        suites = ["heart", "diamond", "spade", "club"]
+
+        # Add 4 decks
+        for _ in range(4):
+            for suite in suites:
+                for i in range(2, 11):
+                    createdDeck.append(Card(i, suite))
+                for face in faces:
+                    createdDeck.append(Card(face, suite))
+
+        random.shuffle(createdDeck)
+        return createdDeck
+
+    def popCard(self) -> Card:
+        """Returns a popped card from the deck. Main function to deal out cards."""
+        random.shuffle(self.deckList)
+
+        poppedCard = self.deckList.pop()
+        self.cardsInUse.append(poppedCard)
+        return poppedCard
+
+    def resetDeck(self) -> None:
+        for i in self.cardsInUse:
+            self.deckList.append(i)
+
+        self.cardsInUse = []
+
+
 class Player:
     def __init__(self):
-        self.hand: list[Card]
+        self.hand: list[Card] = []
         self.handValue = 0
 
     def _updateHandValue(self) -> None:
@@ -84,60 +123,23 @@ class Dealer(Player):
         print(CARD_BORDER)
 
     def revealHand(self) -> None:
+        print(" DEALER")
+
         for i in self.hand:
             i.print()
         print(f"Currently {self.handValue}")
 
 
-class Deck:
-
-    def __init__(self):
-        self.deckList: list[Card] = Deck._create()
-        self.cardsInUse: list[Card]
-
-    @staticmethod
-    def _create() -> list[Card]:
-        createdDeck: list[Card] = []
-
-        faces = ["k", "q", "j", "a"]
-        suites = ["heart", "diamond", "spade", "club"]
-
-        # Add 4 decks
-        for _ in range(4):
-            for suite in suites:
-                for i in range(2, 11):
-                    createdDeck.append(Card(i, suite))
-                for face in faces:
-                    createdDeck.append(Card(face, suite))
-
-        random.shuffle(createdDeck)
-        return createdDeck
-
-    def popCard(self) -> Card:
-        """Returns a popped card from the deck. Main function to deal out cards."""
-        random.shuffle(self.deckList)
-
-        poppedCard = self.deckList.pop()
-        self.cardsInUse.append(poppedCard)
-        return poppedCard
-
-    def resetDeck(self) -> None:
-        for i in self.cardsInUse:
-            self.deckList.append(i)
-
-        self.cardsInUse = []
-
-
 class User(Player):
 
-    optionsDict = {"s": "(S)tand", "h": "(H)it", "d": "(D)ouble Down", "sp": "(Sp)lit"}
+    optionsDict = {"s": "(S)tand", "h": "(H)it", "d": "(D)ouble Down"}
 
     def __init__(self):
         super().__init__()
-        self.splitHand: list[Card] | None = None
         self.turns: int = 0
 
     def printHand(self) -> None:
+
         print(" CURRENT HAND")
         for i in self.hand:
             i.print()
@@ -146,40 +148,35 @@ class User(Player):
     def _getPlayOptions(self) -> list[str]:
         """Private method.
         Returns the options the player has available to them from a given amount of previous turns.
-        Args:
-            turns: The amount of previous turns the player has played. Used to determine if "Double Down" and "Split" is available.
         Return:
             List of available options
+        Notes:
+            inefficient. Each turn requires this method to be called, resulting in multiple logic statements.
+            - Could possibly store the values in array, only adding
         """
         options = ["s", "h"]
         # Double Down
         if self.turns == 0:
             options.append("d")
 
-        # Split
-        def checksplit() -> bool:
-            if self.turns > 0 and self.hand:
-                return False
-            if self.hand[0].cardValue != self.hand[1].cardValue:
-                return False
-            return True
-
-        if checksplit():
-            options.append("sp")
         return options
 
     def reset(self) -> None:
         super().reset()
-        self.splitHand = None
         self.turns = 0
 
     def getUserChoice(self) -> str:
         """Returns the option user wants to do for their turn"""
-        options = self._getPlayOptions()
-        desiredChoice = str.lower(input(f"{", ".join(options)}: "))
+        options: list[str] = []
+
+        for i in self._getPlayOptions():
+            if User.optionsDict[i]:
+                options.append(User.optionsDict[i])
+
+        desiredChoice = str.lower(input(f"{', '.join(options)}: "))
 
         while desiredChoice not in User.optionsDict.keys():
-            print("Incorect input. (ex. Stand = 's' or 'S')")
-            desiredChoice = str.lower(input(f"{", ".join(options)}: "))
+            print("Incorect input. (ex. Stand = 's' or 'S'): ")
+            desiredChoice = str.lower(input(f"{', '.join(options)}: "))
 
         return desiredChoice
