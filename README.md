@@ -13,9 +13,13 @@ This CLI based Blackjack game utilizes **Object Oriented Programming**, **Moduel
 ## Playing The Game
 
 The program depends on inputs from the user. Inputs are not case-sensitive and only one character is needed, full words are optional (this reads the first char in the input. "still" is still valid).
+
 Typical Prompts will read:
+
 `(H)it, (S)tand, (D)ouble Down `
+
 You will have an option to quit the program before a game starts, but you cannot quit in the middle of a round. Like the actual game, you can't just up and leave the table in the middle of a round.
+
 `Press Enter key to continue or (Q)uit: `
 
 ### Rules of Blackjack
