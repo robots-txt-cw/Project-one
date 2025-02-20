@@ -73,13 +73,27 @@ class Player:
     def _updateHandValue(self) -> None:
         """Mainly the logic for face cards. Updates Player.handValue"""
         self.handValue = 0
+        aceCards: list[Card] = []
+
         for card in self.hand:
-            if type(card.cardValue) == int:
+            if type(card.cardValue) is int:
                 self.handValue += card.cardValue
-            elif card.cardValue == "k" or "q" or "j":
+            elif (
+                card.cardValue == "k" or card.cardValue == "q" or card.cardValue == "j"
+            ):
                 self.handValue += 10
             elif card.cardValue == "a":
-                self.handValue += 11 if self.handValue + 11 <= 21 else 1
+                aceCards.append(card)
+
+        remainingAceCards = 0
+        for i in range(len(aceCards)):
+            cardCount = len(aceCards) - i
+            if self.handValue + (11 * cardCount) <= 21:
+                self.handValue += 11 * cardCount
+                break
+            else:
+                remainingAceCards += 1
+        self.handValue += remainingAceCards
 
     def populateHand(self, drawnCard: list[Card] | Card) -> None:
         """Populates the player's hand with a card or set of cards. Updates both Player.hand and Player.handValue
@@ -89,8 +103,7 @@ class Player:
             drawnCard Card: card drawn after hitting
         """
         if type(drawnCard) is list:
-            for card in drawnCard:
-                self.hand.append(card)
+            self.hand = drawnCard
         else:
             self.hand.append(drawnCard)
 
