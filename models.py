@@ -165,9 +165,6 @@ class User(Player):
         Returns the options the player has available to them from a given amount of previous turns.
         Return:
             List of available options
-        Notes:
-            inefficient. Each turn requires this method to be called, resulting in multiple logic statements.
-            - Could possibly store the values in array, only adding
         """
         options = ["s", "h"]
         # Double Down
