@@ -186,10 +186,15 @@ class User(Player):
             if i in User.shortHandOptions:
                 options.append(User.longHandOptions[User.shortHandOptions.index(i)])
 
-        desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
+        while True:
+            try:
+                desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
 
-        while desiredChoice not in User.shortHandOptions:
-            print("Incorect input. (ex. Stand = 's' or 'S'): ")
-            desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
+                while desiredChoice not in User.shortHandOptions:
+                    print("Incorect input. (ex. Stand = 's' or 'S'): ")
+                    desiredChoice = str.lower(input(f"{', '.join(options)}: ")[0])
+                break
+            except IndexError:
+                print("You must input something, blank input is not accepted")
 
         return desiredChoice
