@@ -1,10 +1,10 @@
 # CSC 1019 Project 1 (Terminal Jack)
 
-This CLI based Blackjack game utilizes **Object Oriented Programming**, **Moduels**, **Parallel Arrays**, and **Nested Loops**
+This CLI based Blackjack game utilizes **Object Oriented Programming**, **Functions**, **Parallel Arrays**, and **Nested Loops**
 
 ### Project Requirments
 
-> - Modules - models.py, helper.py, constants.py
+> - Functions - models.py, helper.py
 > - Parallel Arrays - models.py
 > - Nested Loops - models.py
 > - [Psuedocode](https://docs.google.com/document/d/1f2Hn8JHXtVvwcB-JNACIGDwMxlJp3PZSVbY7nKyXmII/edit?usp=sharing)
