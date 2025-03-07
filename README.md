@@ -4,9 +4,9 @@ This CLI based Blackjack game utilizes **Object Oriented Programming**, **Functi
 
 ### Project Requirments
 
-> - Functions - models.py, helper.py
-> - Parallel Arrays - models.py
-> - Nested Loops - models.py
+> - **Functions** - models.py, helper.py
+> - **Parallel Arrays** - models.py
+> - **Nested Loops** - models.py
 > - [Psuedocode](https://docs.google.com/document/d/1f2Hn8JHXtVvwcB-JNACIGDwMxlJp3PZSVbY7nKyXmII/edit?usp=sharing)
 > - [Flowchart](https://lucid.app/lucidchart/9300344a-5a2b-4b2e-be47-13986c7ae216/view)
 

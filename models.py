@@ -34,6 +34,9 @@ class Deck:
 
     @staticmethod
     def _create() -> list[Card]:
+        """
+        Static Method used to populate the deck with cards when the instance is first created.
+        """
         createdDeck: list[Card] = []
 
         faces = ["k", "q", "j", "a"]
@@ -51,7 +54,9 @@ class Deck:
         return createdDeck
 
     def popCard(self) -> Card:
-        """Returns a popped card from the deck. Main function to deal out cards."""
+        """
+        Returns a popped card from the deck. Main function to deal out cards.
+        """
         random.shuffle(self.deckList)
 
         poppedCard = self.deckList.pop()
@@ -71,9 +76,12 @@ class Player:
         self.handValue = 0
 
     def _updateHandValue(self) -> None:
-        """Mainly the logic for face cards. Updates Player.handValue"""
+        """
+        Private Method
+        Mainly the logic for face cards. Updates Player.handValue
+        """
         self.handValue = 0
-        aceCards: list[Card] = []
+        aceCardCount = 0
 
         for card in self.hand:
             if type(card.cardValue) is int:
@@ -83,24 +91,26 @@ class Player:
             ):
                 self.handValue += 10
             elif card.cardValue == "a":
-                aceCards.append(card)
+                aceCardCount += 1
 
-        remainingAceCards = 0
-        for i in range(len(aceCards)):
-            cardCount = len(aceCards) - i
-            if self.handValue + (11 * cardCount) <= 21:
-                self.handValue += 11 * cardCount
-                break
+        """
+        The logic behind determining if any of the ace cards in the players hand should be valued at 11.
+        Since 11 + 11 = 22, there is no way two or more ace cards can be valued at 11 each. 
+        After checking if the first ace card can be valued at 11, any remaining ace cards can be automatically
+            valued at 1.
+        """
+        if aceCardCount > 0:
+            if self.hand + 11 <= 21:
+                self.hand += 11 + (aceCardCount - 1)
             else:
-                remainingAceCards += 1
-        self.handValue += remainingAceCards
+                self.hand += aceCardCount
 
     def populateHand(self, drawnCard: list[Card] | Card) -> None:
-        """Populates the player's hand with a card or set of cards. Updates both Player.hand and Player.handValue
+        """
+        Populates the player's hand with a card or set of cards. Updates both Player.hand and Player.handValue
 
         Args:
-            drawnCard List[Card]: an array of cards given out during the start of the round.
-            drawnCard Card: card drawn after hitting
+            drawnCard: A list of cards or a single card object to append to the players hand
         """
         if type(drawnCard) is list:
             self.hand = drawnCard
@@ -110,10 +120,12 @@ class Player:
         self._updateHandValue()
 
     def isBust(self) -> bool:
-        """Checks if player busts or not.
+        """
+        Checks if player busts or not.
+
         Returns:
-            True: Player's hand value is > 21
-            False: Player's hand value is <= 21"""
+            Bool value
+        """
         if self.handValue > 21:
             return True
         return False
@@ -162,13 +174,12 @@ class User(Player):
 
     def _getPlayOptions(self) -> list[str]:
         """Private method.
+
         Returns the options the player has available to them from a given amount of previous turns.
         Return:
             List of available options
         """
         options = ["s", "h"]
-        # Double Down
-        # Only valid if start of the round. the user should only have two cards
         if len(self.hand) == 2:
             options.append("d")
 
@@ -179,7 +190,9 @@ class User(Player):
         self.turns = 0
 
     def getUserChoice(self) -> str:
-        """Returns the option user wants to do for their turn"""
+        """
+        Returns the option user wants to do for their turn
+        """
         options: list[str] = []
 
         for i in self._getPlayOptions():
