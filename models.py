@@ -100,10 +100,10 @@ class Player:
             valued at 1.
         """
         if aceCardCount > 0:
-            if self.hand + 11 <= 21:
-                self.hand += 11 + (aceCardCount - 1)
+            if self.handValue + 11 <= 21:
+                self.handValue += 11 + (aceCardCount - 1)
             else:
-                self.hand += aceCardCount
+                self.handValue += aceCardCount
 
     def populateHand(self, drawnCard: list[Card] | Card) -> None:
         """
