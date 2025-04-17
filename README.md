@@ -2,6 +2,12 @@
 
 This CLI based Blackjack game utilizes **Object Oriented Programming**, **Functions**, **Parallel Arrays**, and **Nested Loops**
 
+## TO DO
+
+- [x] Implement Colors
+- [ ] Implement horizontal printing of the cards
+- [ ] Implement "split" function
+
 ### Project Requirments
 
 > - **Functions** - models.py, helper.py

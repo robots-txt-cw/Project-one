@@ -1,8 +1,9 @@
+from enum import Enum
 from constants import CARD_BORDER, CARD_HEIGHT, CARD_FILLER, CARD_DEALER_FILLER
 import random
 
 
-class Colors:
+class Colors(Enum):
     BLACK = "\033[0;30m"
     RED = "\033[0;31m"
     GREEN = "\033[0;32m"
@@ -169,7 +170,7 @@ class Dealer(Player):
 
     def printHand(self) -> None:
         print(" DEALER")
-        self.hand[1].print()
+        self.hand[0].print()
         print(CARD_BORDER)
         for _ in range(CARD_HEIGHT):
             print(CARD_DEALER_FILLER)
