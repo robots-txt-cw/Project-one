@@ -48,9 +48,9 @@ def main():
 
         match userWon:
             case True:
-                print("You Won")
+                print(f"{models.Colors.GREEN}You Won{models.Colors.END}")
             case False:
-                print("You Lost")
+                print(f"{models.Colors.RED}You Lost{models.Colors.END}")
             case None:
                 print("You Pushed")
 
